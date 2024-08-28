@@ -1,0 +1,15 @@
+/* Custom styles for mobile */
+
+@media (max-width: 810px) {
+  .custom-menu {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 903px) {
+  .authspace {
+    justify-content: center;
+    margin-left: 50px;
+  }
+}
