@@ -1,6 +1,7 @@
 import { CheckCircleFilled, MinusCircleFilled } from "@ant-design/icons";
 import { Button, Flex, Image, Space } from "antd";
 import { useContext, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { APP_LOGO } from "../../utils/constant";
 import UserContext from "../../utils/context/UserContext";
@@ -10,12 +11,12 @@ import "./layout.css";
 function Header() {
   const isOnline = useOnlineStatus();
   const { loaggedInUser } = useContext(UserContext);
+  const cartItems = useSelector((state) => state.cart.items);
   const [buttonName, setButtonName] = useState("Login");
   const navItems = [
-    { title: "Home", to: "/" },
-    { title: "About Us", to: "/about" },
-    { title: "Contact Us", to: "/contact" },
-    { title: "Cart", to: "/cart" },
+    { id: "home", title: "Home", to: "/" },
+    { id: "about", title: "About Us", to: "/about" },
+    { id: "cart", title: `Cart (${cartItems?.length})`, to: "/cart" },
   ];
   const login = () => {
     buttonName === "Login" ? setButtonName("Logout") : setButtonName("Login");
@@ -33,7 +34,7 @@ function Header() {
       }}
       className="custom-menu"
     >
-      <Image width={100} src={APP_LOGO} />
+      <Image width={100} src={APP_LOGO} title="app-logo" />
       <Flex
         component="div"
         align="right"
@@ -43,6 +44,7 @@ function Header() {
       >
         {navItems?.map((navItem) => (
           <Space
+            title="menu-item"
             key={navItem?.title}
             style={{
               fontWeight: 600,
@@ -53,6 +55,7 @@ function Header() {
             }}
           >
             <Link
+              data-testid={navItem?.id}
               to={navItem?.to}
               style={{
                 fontSize: "16px",
